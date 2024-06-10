@@ -1,0 +1,250 @@
+main.jobs {
+    margin-top: -53px;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 0;
+    .hero {
+        height: 380px;
+        width: 100%;
+        background: url('../images/jobs.png') no-repeat center center;
+        background-size: cover;
+        margin-bottom: 1rem;
+    }
+    .title {
+        font-size: 18px;
+    }
+    .featured {
+        border: 2px solid #ddd;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        background: #fff;
+        border-radius: 7px;
+        .card-header {
+            border-bottom: 3px solid $primaryColor;
+            h4 {
+                font-size: 16px;
+                margin: 0;
+                i {
+                    font-size: 22px;
+                    color: $primaryColor;
+                    vertical-align: middle;
+                    margin-left: 5px;
+                }
+            }
+        }
+        .card-body {
+            padding: 15px;
+            ul {
+                @include listUnStyle;
+                li {
+                    display: block;
+                    margin-bottom: 12px;
+                    a {
+                        display: block;
+                    }
+                    strong {
+                        float: right;
+                        font-style: 16px;
+                        color: #666;
+                    }
+                    span {
+                        float: left;
+                        display: block;
+                        padding: 2px 15px;
+                        background: $mainColor;
+                        color: #fff;
+                        border-radius: 7px;
+                        font-size: 12px;
+                    }
+                    &:after {
+                        display: table;
+                        content: "";
+                        clear: both;
+                    }
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    .catsList {
+        border: unset;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 7px;
+        margin-bottom: 30px;
+        .card-body {
+            padding: 0;
+            border-radius: 7px;
+        }
+        .card-header {
+            background: #fff;
+            border-radius: 7px 7px 0 0;
+        }
+        ul {
+            @include listUnStyle;
+            li {
+                display: block;
+                a {
+                    display: block;
+                    background: #fff;
+                    color: $mainColor;
+                    @include transition(300ms);
+                    &:hover {
+                        background: $mainColor;
+                        strong {
+                            color: $primaryColor;
+                            i {
+                                margin-left: 7px;
+                                color: $primaryColor;
+                            }
+                        }
+                        span {
+                            background: $mainColor;
+                            color: $primaryColor;
+                        }
+                    }
+                    strong {
+                        float: right;
+                        display: block;
+                        padding: {
+                            top: 5px;
+                            bottom: 5px;
+                            right: 15px;
+                        }
+                        @include transition(300ms);
+                        i {
+                            vertical-align: middle;
+                            color: $mainColor;
+                            @include transition(300ms);
+                        }
+                    }
+                    span {
+                        float: left;
+                        display: block;
+                        background: $primaryColor;
+                        color: $mainColor;
+                        padding: {
+                            right: 30px;
+                            left: 20px;
+                            top: 5px;
+                            bottom: 5px;
+                        }
+                        text-align: center;
+                        min-width: 58px;
+                        @include transition(300ms);
+                    }
+                    &:after {
+                        display: table;
+                        content: "";
+                        clear: both;
+                    }
+                }
+            }
+        }
+    }
+    .single {
+        border: 2px solid #ddd;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        border-radius: 7px;
+        padding-left: 15px;
+        @media screen and (max-width: 767px) {
+            padding-left: 0;
+        }
+        .date {
+            background: $primaryColor;
+            height: 100%;
+            width: 100%;
+            color: #111;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 0 7px 7px 0;
+            display: table;
+            span {
+                display: table-cell;
+                vertical-align: middle;
+            }
+            @media screen and (max-width: 767px) {
+                border-radius: 7px 7px 0 0;
+                padding: 5px 0;
+            }
+        }
+        .col-md-2 {
+            padding-left: 0;
+            @media screen and (max-width: 767px) {
+                padding-left: 15px;
+            }
+        }
+        .col-md-10 {
+            padding: {
+                top: 15px;
+                left: 0;
+                right: 0;
+            }
+            @media screen and (max-width: 767px) {
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+        }
+        .col-md-12 {
+            padding: {
+                top: 15px;
+                left: 0;
+                right: 15px;
+            }
+            @media screen and (max-width: 767px) {
+                padding-left: 15px;
+            }
+        }
+        h5 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: $mainColor;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        .text-justify {
+            color: #666;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        .info {
+            @include listUnStyle;
+            background: #eee;
+            padding: {
+                top: 5px;
+                bottom: 5px;
+                left: 15px;
+                right: 15px;
+            }
+            li {
+                float: right;
+                margin-left: 15px;
+                &:last-child {
+                    float: left;
+                    margin-left: 0;
+                }
+                i {
+                    vertical-align: middle;
+                    margin-left: 4px;
+                }
+                a {
+                    background: $mainColor;
+                    color: #fff;
+                    display: block;
+                    padding: 3px 7px;
+                    font-size: 12px;
+                    border-radius: 7px;
+                }
+            }
+            &:after {
+                display: table;
+                content: "";
+                clear: both;
+            }
+        }
+    }
+}

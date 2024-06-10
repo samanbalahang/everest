@@ -1,0 +1,38 @@
+@media screen and (max-width: 767px) {
+    main {
+        &.students,
+        &.lecturers,
+        &.customers,
+        &.downloads,
+        &.download,
+        &.articles,
+        &.testimonials,
+        &.about,
+        &.contact,
+        &.courses,
+        &.departments,
+        &.course,
+        &.news,
+        &.jobs,
+        &.oldcourses {
+            margin-top: 0;
+            .hero {
+                height: 80vh;
+            }
+            .col-md-2h {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+    }
+}
+@media screen and (max-width: 320px) {
+    main {
+        &.departments {
+            .col-md-2h {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    }
+}

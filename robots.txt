@@ -1,0 +1,3 @@
+User-agent:*
+Disallow: /login/
+Sitemap: https://uni-everest.com/sitemap.xml

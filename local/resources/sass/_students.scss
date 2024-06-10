@@ -1,0 +1,156 @@
+main.students {
+    margin-top: -53px;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 0;
+    .hero {
+        height: 380px;
+        width: 100%;
+        background: url('../images/students.png') no-repeat center center;
+        background-size: cover;
+        margin-bottom: 1rem;
+    }
+    .numbers {
+        border: 2px solid #fff;
+        border-radius: 7px;
+        margin-bottom: 30px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background: #f5f7f8;
+        text-align: center;
+        i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        h5 {
+            font-size: 16px;
+            color: $mainColor;
+        }
+        h4 {
+            font-size: 22px;
+            direction: ltr;
+            color: #666;
+        }
+    }
+    .courseList {
+        border: unset;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 7px;
+        .card-body {
+            padding: 0;
+            border-radius: 7px;
+        }
+        .card-header {
+            background: #fff;
+            border-radius: 7px 7px 0 0;
+        }
+        ul {
+            @include listUnStyle;
+            li {
+                display: block;
+                margin-bottom: 5px;
+                a {
+                    display: block;
+                    background: #fff;
+                    color: $mainColor;
+                    padding: 5px 15px;
+                    @include transition(300ms);
+                    &:hover {
+                        background: $mainColor;
+                        color: $primaryColor;
+                        i {
+                            margin-left: 7px;
+                            color: $primaryColor;
+                        }
+                    }
+                    i {
+                        vertical-align: middle;
+                        color: $mainColor;
+                        @include transition(300ms);
+                    }
+                }
+            }
+        }
+    }
+    .studentSingle {
+        text-align: center;
+        background: #fff;
+        border: 2px solid #fff;
+        border-radius: 7px;
+        margin-bottom: 30px;
+        padding: {
+            bottom: 20px;
+            right: 10px;
+            top: 20px;
+            left: 10px;
+        }
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        @include transition(300ms);
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: {
+                right: auto;
+                left: auto;
+                bottom: 25px;
+            }
+            @include transition(300ms);
+        }
+        h5 {
+            color: $mainColor;
+            font-size: 18px;
+            font-weight: 700;
+            @include transition(300ms);
+        }
+        ul {
+            @include listUnStyle;
+            li {
+                display: block;
+                font-weight: 700;
+                margin-bottom: 3px;
+                p {
+                    margin-bottom: 10px;
+                }
+                span,
+                strong {
+                    font-weight: 700;
+                    display: block;
+                    @include transition(300ms);
+                }
+                &:first-child,
+                &:nth-child(2) p,
+                &:nth-child(3) span,
+                &:nth-child(4) span {
+                    color: #666;
+                }
+                &:nth-child(2) strong,
+                &:nth-child(3) strong,
+                &:nth-child(4) strong {
+                    color: #333;
+                }
+            }
+        }
+        &:hover {
+            background: $primaryColor;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            h5 {
+                color: #333;
+            }
+            ul {
+                li {
+                    &:nth-child(3) strong,
+                    &:nth-child(4) strong {
+                        color: #333;
+                    }
+                }
+            }
+            img {
+                filter: grayscale(1);
+            }
+        }
+    }
+}

@@ -1,0 +1,62 @@
+main.lecturers {
+    margin-top: -53px;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 0;
+    .hero {
+        height: 380px;
+        width: 100%;
+        background: url('../images/lecturers.png') no-repeat center center;
+        background-size: cover;
+        margin-bottom: 1rem;
+    }
+    .lecturerSingle {
+        text-align: center;
+        padding: {
+            top: 2rem;
+            bottom: 1rem;
+        }
+        background: #fff;
+        border-radius: 7px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        @include transition(300ms);
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: {
+                right: auto;
+                left: auto;
+                bottom: 7px;
+            }
+        }
+        h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: $mainColor;
+            @include transition(300ms);
+        }
+        .years {
+            span,
+            strong {
+                display: block;
+            }
+            strong {
+                font-size: 18px;
+                color: #f49000;
+            }
+            span {
+                color: #ffc000;
+            }
+        }
+        &:hover {
+            background: $mainColor;
+            box-shadow: 0 0 15px rgba(255, 226, 79, 1);
+            h4 {
+                color: #fff;
+            }
+        }
+    }
+}

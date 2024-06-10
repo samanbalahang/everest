@@ -1,0 +1,131 @@
+main.downloads,
+main.download {
+    margin-top: -53px;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 0;
+    .hero {
+        height: 380px;
+        width: 100%;
+        background: url('../images/downloads.png') no-repeat center center;
+        background-size: cover;
+        margin-bottom: 1rem;
+    }
+    .catsList {
+        border: unset;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 7px;
+        margin-bottom: 30px;
+        .card-body {
+            padding: 0;
+            border-radius: 7px;
+        }
+        .card-header {
+            background: #fff;
+            border-radius: 7px 7px 0 0;
+        }
+        ul {
+            @include listUnStyle;
+            li {
+                display: block;
+                a {
+                    display: block;
+                    background: #fff;
+                    color: $mainColor;
+                    @include transition(300ms);
+                    &:hover {
+                        background: $mainColor;
+                        strong {
+                            color: $primaryColor;
+                            i {
+                                margin-left: 7px;
+                                color: $primaryColor;
+                            }
+                        }
+                        span {
+                            background: $mainColor;
+                            color: $primaryColor;
+                        }
+                    }
+                    strong {
+                        float: right;
+                        display: block;
+                        padding: {
+                            top: 5px;
+                            bottom: 5px;
+                            right: 15px;
+                        }
+                        @include transition(300ms);
+                        i {
+                            vertical-align: middle;
+                            color: $mainColor;
+                            @include transition(300ms);
+                        }
+                    }
+                    span {
+                        float: left;
+                        display: block;
+                        background: $primaryColor;
+                        color: $mainColor;
+                        padding: {
+                            right: 30px;
+                            left: 20px;
+                            top: 5px;
+                            bottom: 5px;
+                        }
+                        text-align: center;
+                        min-width: 58px;
+                        @include transition(300ms);
+                    }
+                    &:after {
+                        display: table;
+                        content: "";
+                        clear: both;
+                    }
+                }
+            }
+        }
+    }
+    .downloadSingle {
+        border: 2px solid #ddd;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        .card-header {
+            border-bottom: 3px solid $primaryColor;
+            background: #fff;
+            h4 {
+                font-size: 20px;
+                margin: 0;
+            }
+        }
+        .card-body {
+            padding: {
+                top: 5px;
+            }
+            .info {
+                @include listUnStyle;
+                margin-bottom: 20px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #eee;
+                li {
+                    display: inline-block;
+                    margin-left: 15px;
+                    i {
+                        margin-left: 3px;
+                    }
+                }
+            }
+            .btn {
+                background: $mainColor;
+                color: #fff;
+                border: 1px solid $mainColor;
+                margin-top: 15px;
+                @include transition(300ms);
+                &:hover {
+                    background: #fff;
+                    color: $mainColor;
+                }
+            }
+        }
+    }
+}

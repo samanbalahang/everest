@@ -1,0 +1,11 @@
+@mixin listUnStyle {
+    list-style: none;
+    margin-bottom: 0;
+    padding-right: 0
+}
+@mixin transition($seconds) {
+    transition: all $seconds;
+}
+$mainColor: #003359;
+$primaryColor: #ffe24f;
+$primaryColor2: #e3ae25;
