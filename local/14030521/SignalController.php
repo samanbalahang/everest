@@ -13,7 +13,6 @@ use App\Signal;
 use App\signalmoshaver;
 use App\Ashnaee;
 use App\Sarnakh;
-use App\NobatMoshavereh;
 use Carbon\Carbon;
 
 class SignalController extends Controller
@@ -309,7 +308,7 @@ class SignalController extends Controller
             $maleCount    =  $male->count();
             $female       =  UserSignal::where("gender", 0)->get();
             $femaleCount  =  $female->count();
-            $areaList     =  Area::where("state_id",31)->get();
+            $areaList     =  Area::All();
             $theareas      =  [];
             $areanames    =  [];
             foreach ($areaList as $area) {
@@ -355,7 +354,6 @@ class SignalController extends Controller
             foreach ($sarnakh as $method) {
                 $lists = UserSignal::orderBy('lead', 'asc')->where("lead", $method->id)->get()->count();
                 $lead[] = $lists;
-                $leadname[] = $method->title;
             }
 
             // dd($karbaran->karbar_name);
@@ -370,7 +368,7 @@ class SignalController extends Controller
                 $femalePercent = 0;
             }
 
-            return view("site.signal.amar", compact("karbaran", "malePercent", "femalePercent","areanames", "areaList", "theareas","dorehaName", "doreha","signaldors", "signals", "kolKarban", "kolSignal", "ashnaee","methodNames","leadname", "ashnaeearray", "lead","todaySignal","kolMoshavereha","todayMoshavereh","bedoneNatigeh","sabtenameKard","garareBiad","monSaferShood","darhaleBarresi","kolSignalkarbarans"));
+            return view("site.signal.amar", compact("karbaran", "malePercent", "femalePercent","areanames", "areaList", "theareas","dorehaName", "doreha","signaldors", "signals", "kolKarban", "kolSignal", "ashnaee","methodNames", "ashnaeearray", "lead","todaySignal","kolMoshavereha","todayMoshavereh","bedoneNatigeh","sabtenameKard","garareBiad","monSaferShood","darhaleBarresi","kolSignalkarbarans"));
         } else {
             return redirect()->route("site.signal.login");
         }
@@ -414,8 +412,6 @@ class SignalController extends Controller
         }
 
     }
-
-    // سیگنال یک تاریخ خاص
     public function singleDate(Request $request){
         $karbaran =$this->checkcooke();
         if ($karbaran) {
@@ -449,8 +445,6 @@ class SignalController extends Controller
         $data = [$singleDate,$carbontoday,$curentDate,$testdate,$karbaran,$kolSignal,$allkarbaran,$table];
         return json_encode($data , JSON_UNESCAPED_UNICODE); 
     }
-
-    // فیلتر سیگنال از یک تاریخ تا یک تاریخ دیگر
     public function singleDateFromto(Request $request){
         $karbaran =$this->checkcooke();
         if ($karbaran) {
@@ -511,119 +505,4 @@ class SignalController extends Controller
 
     }
 
-    // انتقال به ویو فیلتر کردن کاربران برای دریافت موبایل
-    public function phoneFilters(){
-        $karbaran =$this->checkcooke();
-        if ($karbaran) {
-            $karbaran =(object) $karbaran;
-            $karbaran->id = $karbaran->karbar_id;
-            $karbaran->active = $karbaran->karbar_active;
-            $doreha = Doreha::all();
-            return view("site.signal.phonefilter",compact("karbaran","doreha"));
-        } else {
-            return redirect()->route("site.signal.login");
-        }
-    }
-
-    // فیلتر کردن تلفن کاربران برای سامانه پیام کوتاه
-    public function phoneFiltersSabt(Request $request){
-        $karbaran =$this->checkcooke();
-        if ($karbaran) {
-            $karbaran =(object) $karbaran;
-            $karbaran->id = $karbaran->karbar_id;
-            $karbaran->active = $karbaran->karbar_active;
-            $doreha = Doreha::all();
-            if($request->gender != ""){
-                if($request->doreh != ""){
-                    if($request->vazeiat != ""){
-                        $users= DB::table('usersignal')
-                        ->join('signalmoshaver', 'usersignal.id', '=', 'signalmoshaver.user_signal_id')
-                        ->select('usersignal.id','usersignal.fname', 'usersignal.lname','usersignal.course_id','usersignal.mobile')->where('signalmoshaver.vazeiat',"$request->vazeiat")->where("course_id","$request->doreh")->where("gender",$request->gender)
-                        ->get();
-                        return view("site.signal.phonefilter",compact("karbaran","users","doreha"));
-                    }else{
-                    $users  =UserSignal::where("course_id","$request->doreh")->where("gender",$request->gender)->get();
-                    }
-
-                }else{
-                    $users  =UserSignal::where("gender",$request->gender)->get();
-                    if($request->vazeiat != ""){
-                        $users= DB::table('usersignal')
-                        ->join('signalmoshaver', 'usersignal.id', '=', 'signalmoshaver.user_signal_id')
-                        ->select('usersignal.id','usersignal.fname', 'usersignal.lname','usersignal.course_id','usersignal.mobile')->where('signalmoshaver.vazeiat',"$request->vazeiat")->where("gender",$request->gender)
-                        ->get();
-                        return view("site.signal.phonefilter",compact("karbaran","users","doreha"));
-                    }
-                }
-            }elseif($request->doreh != ""){
-                $users  =UserSignal::where("course_id","$request->doreh")->get();
-                if($request->vazeiat != ""){
-                    $users= DB::table('usersignal')
-                    ->join('signalmoshaver', 'usersignal.id', '=', 'signalmoshaver.user_signal_id')
-                    ->select('usersignal.id','usersignal.fname', 'usersignal.lname','usersignal.course_id','usersignal.mobile')->where('signalmoshaver.vazeiat',"$request->vazeiat")->where("course_id","$request->doreh")
-                    ->get();
-                    return view("site.signal.phonefilter",compact("karbaran","users","doreha"));
-                }
-            }elseif($request->vazeiat != ""){
-                $users= DB::table('usersignal')
-                ->join('signalmoshaver', 'usersignal.id', '=', 'signalmoshaver.user_signal_id')
-                // ->select('usersignal.id as usersignalId','usersignal.*', 'signals.*')
-                ->select('usersignal.id','usersignal.fname', 'usersignal.lname','usersignal.course_id','usersignal.mobile')->where('signalmoshaver.vazeiat',"$request->vazeiat")
-                ->get();
-                return view("site.signal.phonefilter",compact("karbaran","users","doreha"));
-            }
-            else{
-                $users  =UserSignal::all();
-            }
-            return view("site.signal.phonefilter",compact("karbaran","doreha","users"));
-        } else {
-            return redirect()->route("site.signal.login");
-        }
-    }
-
-
-    // نوبت دهی آنلاین
-    public function nobat(){
-        $karbaran =$this->checkcooke();
-        if ($karbaran) {
-            $karbaran =(object) $karbaran;
-            $karbaran->id = $karbaran->karbar_id;
-            $karbaran->active = $karbaran->karbar_active;
-            return view("site.signal.nobat",compact("karbaran"));
-        }else{
-            return redirect()->route("site.signal.login");
-        }
-    }
-
-    // ثبت نوبت مشاوره در دیتابیس
-    public function nobatSabt(Request $request){
-        $karbaran =$this->checkcooke();
-        $data = $request->all();
-        if ($karbaran) {
-            $karbaran =(object) $karbaran;
-            $karbaran->id = $karbaran->karbar_id;
-            $karbaran->active = $karbaran->karbar_active;
-            if(NobatMoshavereh::create($data)){
-                return "done";
-            }else{
-                return "error";
-            }
-        }else{
-            return redirect()->route("site.signal.login");
-        }
-    }
-
-    // لیست تمام نوبت های مشاوره در بانک داده
-    public function nobatAll(){
-        $nobats = NobatMoshavereh::all();
-        $data=[];
-        $i=0;
-        foreach ($nobats as $nobat) {
-            $userSignal = UserSignal::find($nobat->usersignal_id);
-            $data[$i][]= $nobat;
-            $data[$i][]= ["mobile"=>$userSignal->mobile,"fname"=>$userSignal->fname,"lname"=>$userSignal->lname];
-            $i++;
-        }
-        return json_encode($data , JSON_UNESCAPED_UNICODE); 
-    }
 }

@@ -350,6 +350,7 @@
                                             <option value="قرار بیاید">قرار بیاید</option>
                                             <option value="منصرف شد">منصرف شد</option>
                                             <option value="در حال بررسی">در حال بررسی</option>
+                                            <option value="پاسخگو نبود">پاسخگو نبود</option>
                                             <option value="ثبت نام کرد">ثبت نام کرد</option>
                                         </select>
                                     </div>

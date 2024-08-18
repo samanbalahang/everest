@@ -84,17 +84,17 @@
                             <span class="p-3 bg-warning d-inline-block">
                                 {{$kolSignal}}
                                 @php
-                                $kolkarbaran = 0;
+                                    $kolkarbaran = 0;
                                 @endphp
                             </span>
                             عدد.
                             توسط
                             <span class="p-3 bg-warning d-inline-block">
-                                @if($kolSignalkarbarans->count()>0)
+                            @if($kolSignalkarbarans->count()>0)
                                 {{$kolSignalkarbarans->count()}}
-                                @endif
+                            @endif
                             </span>
-                            کاربر
+                             کاربر
                         </h3>
                         <h3>
                             تعداد سیگنالهای امروز:
@@ -186,7 +186,7 @@
                         </canvas>
                     </div>
                 </div>
-                <div class="col-12 col-md-12 my-3">
+                <div class="col-12 col-md-6 my-3">
                     <div class="border rounded p-3">
                         <h2 class="text-center">
                             نحوه آشنایی:
@@ -196,7 +196,7 @@
                         </canvas>
                     </div>
                 </div>
-                <div class="col-12 col-md-12 my-3">
+                <div class="col-12 col-md-6 my-3">
                     <div class="border rounded p-3">
                         <h2 class="text-center">
                             سر نخ:
@@ -222,9 +222,6 @@
                             منطقه:
                         </h2>
                         <canvas id="area">
-
-                        </canvas>
-                        <canvas id="area2">
 
                         </canvas>
                     </div>
@@ -265,50 +262,15 @@
         });
         // AREA
         const area = document.getElementById('area');
-        const area2 = document.getElementById('area2');
-        const areacount = eval("{{count($areanames)}}");
-        const hafarray = Math.floor(areacount / 2);
-        const otherhafarray = areacount - hafarray;
-        const arealabels = [
-            <?php
-                $areacount      =  count($areanames);
-                $hafarray       =  floor($areacount / 2);
-                $otherhafarray  =  floor($areacount - $hafarray);
-                for ($i = 0; $i < $hafarray; $i++) {
-                    echo "'"."$areanames[$i]"."'" . ",";
-                }
-            ?>
-        ];
-        const arealabels2 = [
-            <?php
-                for ($i = $hafarray; $i < $areacount; $i++) {
-                    echo "'"."$areanames[$i]"."'" . ",";
-                }
-            ?>
+        const arealabels = [@foreach($areanames as $area)
+        "{{$area}}", @endforeach
         ];
 
-        const areadata = [
-            <?php
-                $areacount      = count($areanames);
-                $hafarray       = floor($areacount / 2);
-                $otherhafarray  = floor($areacount - $hafarray);
-                for ($i = 0; $i < $hafarray; $i++) {
-                    echo "$theareas[$i]".
-                    ",";
-                }
-            ?>
+        const areadata = [@foreach($theareas as $thearea)
+        "{{$thearea}}", @endforeach
         ];
-        const areadata2 = [
-            <?php
-                for ($i = $hafarray; $i < $areacount; $i++) {
-                    echo "$theareas[$i]".
-                    ",";
-                }
-            ?>
-        ];
-
-        // console.log(arealabels);
-        // console.log(areadata);
+        console.log(arealabels);
+        console.log(areadata);
         datas = []
         new Chart(area, {
             type: 'bar',
@@ -329,33 +291,13 @@
                 }
             }
         });
-        new Chart(area2, {
-            type: 'bar',
-            data: {
-                labels: arealabels2,
-                datasets: [{
-                    label: '# نفر',
-                    data: areadata2,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        
         //doreha
         const doreha = document.getElementById('doreha');
         const dorehalabels = [@foreach($dorehaName as $labels)
-            "{{$labels}}", @endforeach
+        "{{$labels}}", @endforeach
         ];
         const dorehadata = [@foreach($signaldors as $signaldor)
-            "{{$signaldor}}", @endforeach
+        "{{$signaldor}}", @endforeach
         ];
 
         new Chart(doreha, {
@@ -380,10 +322,10 @@
         // METHOD
         const method = document.getElementById('method');
         const methodlabels = [@foreach($methodNames as $method)
-            "{{$method}}", @endforeach
+        "{{$method}}", @endforeach
         ];
         const methoddata = [@foreach($ashnaeearray as $ashna)
-            "{{$ashna}}", @endforeach
+        "{{$ashna}}", @endforeach
         ];
         new Chart(method, {
             type: 'bar',
@@ -406,11 +348,11 @@
         });
         // LEAD
         const lead = document.getElementById('lead');
-        const leadlabels = [@foreach($leadname as $method)
-            "{{$method}}", @endforeach
+        const leadlabels = [@foreach($methodNames as $method)
+        "{{$method}}", @endforeach
         ];
         const leads = [@foreach($lead as $ashna)
-            "{{$ashna}}", @endforeach
+        "{{$ashna}}", @endforeach
         ];
         new Chart(lead, {
             type: 'bar',

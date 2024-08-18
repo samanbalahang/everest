@@ -377,7 +377,7 @@
 										@if($sarenakh->count() > 0)
 										@foreach($sarenakh as $method)
 										<label>
-											<input type="radio" id="{{$method->title}}" name="lead" value="{{$method->id}}">
+											<input type="radio" id="{{$method->title}}" name="lead" checked="" value="{{$method->id}}">
 											<span>{{$method->title}}</span>
 										</label>
 										@endforeach
@@ -399,32 +399,29 @@
 <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js')}}"></script>
 <script>
-	// اگر موبایل مفدار نداشت کد ملی فعال میشه
 	if ($("#mobile").val() != "") {
 		setTimeout(function() {
 			$("#mellicode").focus();
 		}, 200)
 	}
 	$(".select2").select2();
-	// اگر شهر عوض شد لیست مناطف رو بگیر
 	$("#city").on("change", () => {
 		// console.log("city change");
 		grtCitysAjax();
 	});
 
-	var grtCitysAjax = ()=> {
+	function grtCitysAjax() {
 		data = {
 			"state_id": $("#state_id").val(),
 			"city_id": $("#city").val(),
 		}
 		$.ajaxSetup({
 			headers: {
-				'X-CSRF-TOKEN': "{{csrf_token()}}",
-				'Accept' 	  : 'application/json',
+				'X-CSRF-TOKEN': '{{csrf_token()}}',
 			}
 		});
 		$.ajax({
-			url: "{{route('site.sarea.jsonlist')}}",
+			url: "{{route('site.area.jsonlist')}}",
 			data: data,
 			type: 'POST',
 			success: function(response) {
@@ -449,11 +446,9 @@
 
 	}
 
-	// آیا مقداری آرایه است
 	function isArray(myArray) {
 		return myArray.constructor.toString().indexOf("Array") > -1;
 	}
-	//اگر فرم ارسال  شد.
 	$("#form").on("submit", function() {
 		$("#alertrequired").hide();
 		if ($(this).find("input[required]").val() == "") {
@@ -469,13 +464,9 @@
 			return false;
 		}
 		return false;
-	});
-
-	//استان پیشفرض کرجه
+	})
 	iranwebsv(31);
 
-
-	// محاسبه سن کاربر
 	function calcAge(event) {
 		// console.log(event.target.value);
 		if (event.target.value != "") {
@@ -491,7 +482,6 @@
 		}
 	}
 
-	// درست کردن اعداد فارسی
 	let fixNumbers = function(str) {
 		var
 			persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
@@ -504,8 +494,6 @@
 		return str;
 	};
 
-
-	// شهر های هر استان
 	function iranwebsv(state) {
 		with(document.getElementById('city')) {
 			options.length = 0;
@@ -1628,7 +1616,6 @@
 		}
 	}
 
-		// فقط عدد میگیرد
 	function allowNumbersOnly(e) {
 		var code = (e.which) ? e.which : e.keyCode;
 		// if (code > 31 && (code < 48 || code > 57)) {
@@ -1639,7 +1626,6 @@
 		}
 	}
 
-	// با خروج کاربر از فیلد موبایل دنبال کاربری با آن شماره میگردیم	
 	$("#mobile").on("blur", function() {
 		if($(this).val().length <11){
 			Swal.fire({
@@ -1680,9 +1666,9 @@
 					$("#fieldLevel").val(result.fieldLevel);
 					$("#state").val(result.state);
 					$("#city").val(result.city);
-					$(`input[name="area"][value="${result.area}"]`).prop("checked", true );
+					$(`input[name="area"][value="${result.area}"]`).prop( "checked", true );
 					$(`input[name="method_id"][value="${result.method_id}"]`).prop( "checked", true );
-					$(`input[name="lead"][value="${result.lead}"]`).prop("checked", true );
+					$(`input[name="lead"][value="${result.lead}"]`).prop( "checked", true );
 					$("#request").text(result.request);
 					// $("#lead").val(result.lead);
 					getoldsignal(olduser.value);
@@ -1695,8 +1681,7 @@
 		}
 	});
 
-	// لیست رشته های انتخابی کاربر را بر میگرداند
-	var getoldsignal = id=> {
+	function getoldsignal(id) {
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': "{{csrf_token()}}",

@@ -1,21 +1,4 @@
-<style>
-    .my-header .child{
-        display: none;
-        position: absolute;
-        width: 220px;
-        z-index: 2;
-        background: #d4e7f5;
-        box-shadow: -5px 9px 16px 0 #cccccc;
-    }
-    .my-header .has-child{
-        position: relative;
-
-    }
-    .my-header .has-child:hover .child{
-        display: block;
-    }
-</style>
-<header class="my-header">
+<header>
         <ul>
             <li>
                 <a href="#">
@@ -70,7 +53,7 @@
                     @break
                     @endswitch
                 </li>
-                <li class="has-child">
+                <li>
                     @switch($karbaran->karbar_role)
                     @case(0)
                     @break
@@ -82,34 +65,6 @@
                     @case(2)
                     <a href="{{route("site.signal.phone.numbers")}}" class="">
                         سامانه پیام کوتاه   
-                    </a>
-                    @break
-                    @endswitch
-                    <ul class="child">
-                        <li>
-                            <a href="{{route("site.signal.phone.numbers")}}" class="">
-                              همه کاربران
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{route("site.signal.phone.filter")}}" class="">
-                              فیلتر کاربران
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    @switch($karbaran->karbar_role)
-                    @case(0)
-                    @break
-                    @case(1)
-                    <a href="{{route("site.signal.nobat")}}" class="">
-                       نوبت مشاوره
-                    </a>
-                    @break
-                    @case(2)
-                    <a href="{{route("site.signal.nobat")}}" class="">
-                            نوبت مشاوره  
                     </a>
                     @break
                     @endswitch

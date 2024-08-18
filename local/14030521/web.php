@@ -180,9 +180,9 @@ Route::prefix('/')->group(function () {
             'uses'  =>  'SignalController@list',
             'as'    =>  'signal.list',
         ]);
-        Route::post('/Sarea-ajax', [
-            'uses'  => 'SignalController@jsonarealist',
-            'as'    =>  'sarea.jsonlist'
+        Route::post('/area-ajax', [
+            'uses'  => 'Admin\KarbaranController@jsonarealist',
+            'as'    =>  'area.jsonlist'
         ]);
         Route::get('/signal-moshaver/{id?}', [
             'uses'  =>  'SignalController@moshaver',
@@ -223,26 +223,6 @@ Route::prefix('/')->group(function () {
         Route::get('/phone-numbers', [
             'uses'  =>  'SignalController@phoneNumbers',
             'as'    =>  'signal.phone.numbers',
-        ]);
-        Route::get('/phone-numbers-filter', [
-            'uses'  =>  'SignalController@phoneFilters',
-            'as'    =>  'signal.phone.filter',
-        ]);
-        Route::post('/phone-numbers-filter', [
-            'uses'  =>  'SignalController@phoneFiltersSabt',
-            'as'    =>  'signal.phone.filter.sabt',
-        ]);
-        Route::get('/nobat', [
-            'uses'  =>  'SignalController@nobat',
-            'as'    =>  'signal.nobat',
-        ]);
-        Route::post('/nobat', [
-            'uses'  =>  'SignalController@nobatSabt',
-            'as'    =>  'signal.nobat.sabt',
-        ]);
-        Route::post('/nobat-all', [
-            'uses'  =>  'SignalController@nobatAll',
-            'as'    =>  'signal.nobat.all',
         ]);
     });
 });

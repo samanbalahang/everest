@@ -129,36 +129,28 @@
     .bg-subtel-success {
         background-color: #9ecfa9;
     }
-
-    .bg-white {
+    .bg-white{
         background-color: white !important;
     }
-
-    .p-3.border {
+    .p-3.border{
         cursor: pointer;
     }
-
-    .bg-secondary {
+    .bg-secondary{
         background-color: #e7e8e9 !important;
     }
-
-    .bg-success {
+    .bg-success{
         background-color: #c0f3cb !important;
     }
-
-    .bg-primary {
+    .bg-primary{
         background-color: #cadef3 !important;
-    }
-
-    .bg-danger {
+    }   
+    .bg-danger{
         background-color: #f7b5bb !important;
     }
-
-    .bg-warning {
+    .bg-warning{
         background-color: #fbebbc !important;
     }
-
-    .bg-purple {
+    .bg-purple{
         background-color: #8000806e !important;
     }
 </style>
@@ -168,19 +160,19 @@
 @endsection
 @section('main')
 <main>
-    @include("site.signal.header")
+@include("site.signal.header")
     <div class="container-fluid">
         <h2 class="text-center">
             لیست سیگنالها
         </h2>
         <div class="col-4 mr-auto d-flex flex-wrap border d-inline-block ">
-            <p class="px-3 py-3 border">
+             <p class="px-3 py-3 border">
                 <a href="{{route("site.signal.list")}}">
-                    تمام داده ها
+                تمام داده ها 
                 </a>
-            </p>
+            </p>    
             <p class="p-3 border">
-                مشاوره نشده
+               مشاوره نشده
                 <span class="p-1 border d-inline-block"></span>
             </p>
             <p class="p-3 border bg-warning">
@@ -200,17 +192,12 @@
                 <span class="bg-purple p-1 border d-inline-block"></span>
             </p>
             <p class="p-3 border bg-success">
-                ثبت نام کرد
+               ثبت نام کرد
                 <span class="bg-success p-1 border d-inline-block"></span>
             </p>
             <p class="p-3 border bg-secondary">
                 بدون نتیجه
                 <span class="bg-secondary p-1 border d-inline-block"></span>
-            </p>
-        </div>
-        <div class="container">
-            <p class="text-danger h2">
-                برای نوبت دهی به کاربران مشاوره نشده روی شماره موبایل آنها کلیک کنید.
             </p>
         </div>
         <div class="p-3 d-inline-bloc">
@@ -221,16 +208,16 @@
                         <th>نام
                             نام خانوادگی</th>
                         <th>
-                            ثبات
-                        </th>
+                         ثبت کننده
+                        </th>    
                         <th>
-                            مشاوره
-                        </th>
+                         مشاوره دهنده
+                        </th>    
                         <th>موبایل</th>
                         <td>منطقه</td>
-                        <td>ج</td>
+                        <td>جنسیت</td>
                         <td>سن</td>
-                        <td>نحوه آشنایی</td>
+                        <td>آشنایی</td>
                         <td>سرنخ</td>
                         <th>تاریخ ثبت</th>
                         <th>تاریخ مشاوره</th>
@@ -241,7 +228,7 @@
                             درخواست
                         </th>
 
-                        <th>وضعیت کاربر</th>
+                        <th>وضعیت</th>
                         <th width="120"></th>
                     </tr>
                 </thead>
@@ -253,58 +240,58 @@
                     @if($users->count() >0)
 
                     @foreach ($users as $item)
-                    @php
-                    $moshavers = App\signalmoshaver::where("user_signal_id",$item->usersignalId)->where("signal_id",$item->signalid)->first();
+                        @php
+                            $moshavers = App\signalmoshaver::where("user_signal_id",$item->usersignalId)->where("signal_id",$item->signalid)->first();
 
-                    @endphp
+                        @endphp
 
-                    @if($moshavers != null)
-                    @switch($moshavers->vazeiat)
-                    @case(null)
-                    @php
-                    $bg = 'class=bg-white'
-                    @endphp
-                    @break
-                    @case("بدون نتیجه")
-                    @php
-                    $bg = 'class=bg-secondary'
-                    @endphp
-                    @break
-                    @case("قرار بیاید")
-                    @php
-                    $bg = 'class=bg-primary'
-                    @endphp
-                    @break
-                    @case("منصرف شد")
-                    @php
-                    $bg = 'class=bg-danger'
-                    @endphp
-                    @break
-                    @case("در حال بررسی")
-                    @php
-                    $bg = 'class=bg-warning'
-                    @endphp
-                    @break
-                    @case("پاسخگو نبود")
-                    @php
-                    $bg = 'class=bg-purple'
-                    @endphp
-                    @break
-                    @case("ثبت نام کرد")
-                    @php
-                    $bg = 'class=bg-success'
-                    @endphp
-                    @break
-                    @endswitch
-                    @else
-                    @php
-                    $bg = 'class=bg-white'
-                    @endphp
-                    @endif
+                        @if($moshavers != null)
+                            @switch($moshavers->vazeiat)
+                                @case(null)
+                                    @php 
+                                        $bg = 'class=bg-white' 
+                                    @endphp
+                                    @break
+                                @case("بدون نتیجه")
+                                    @php 
+                                        $bg = 'class=bg-secondary' 
+                                    @endphp
+                                    @break
+                                @case("قرار بیاید")
+                                    @php 
+                                        $bg = 'class=bg-primary' 
+                                    @endphp
+                                    @break
+                                @case("منصرف شد")
+                                    @php 
+                                        $bg = 'class=bg-danger' 
+                                    @endphp
+                                    @break
+                                @case("در حال بررسی")
+                                    @php 
+                                        $bg = 'class=bg-warning' 
+                                    @endphp
+                                    @break
+                                @case("پاسخگو نبود")
+                                    @php 
+                                        $bg = 'class=bg-purple' 
+                                    @endphp
+                                    @break
+                                @case("ثبت نام کرد")
+                                    @php 
+                                        $bg = 'class=bg-success' 
+                                    @endphp
+                                    @break
+                            @endswitch 
+                        @else
+                            @php 
+                                $bg = 'class=bg-white' 
+                            @endphp
+                        @endif       
                     <tr {{$bg}}>
                         <td>{{ $i }}</td>
                         <td>
-                            {{ $item->fname }} {{ $item->lname }}
+                       {{ $item->fname }} {{ $item->lname }}    
                         </td>
                         <td>
                             @if(App\Kaebaran::find($item->usersignalKarbar))
@@ -316,27 +303,7 @@
                             {{App\Kaebaran::find($item->moshaverKarbar)->karbar_lname}}
                             @endif
                         </td>
-                        <td>
-                            @if($moshavers)
-                            @if($moshavers->vazeiat)
-                                @if($moshavers->vazeiat == "پاسخگو نبود")
-                                <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
-                                    {{ $item->mobile }}
-                                </a>
-                                @else
-                                    {{ $item->mobile }}
-                                @endif
-                            @else
-                            <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
-                                {{ $item->mobile }}
-                            </a>
-                            @endif
-                            @else
-                            <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
-                                {{ $item->mobile }}
-                            </a>
-                            @endif
-                        </td>
+                        <td>{{ $item->mobile }}</td>
                         <td>
                             @if(App\Area::find($item->area))
                             {{App\Area::find($item->area)->area}}
@@ -346,7 +313,7 @@
                         </td>
                         <td>
                             @switch($item->gender)
-
+                            
                             @case(0)
                             {{__("زن")}}
                             @break
@@ -400,35 +367,35 @@
                         </td>
                         <td>
                             @if($moshavers)
-                            @if($moshavers->vazeiat)
-                            {{$moshavers->vazeiat}}
-                            @else
-                            {{__("مشاوره نشده")}}
-                            @endif
-                            @else
-                            {{__("مشاوره نشده")}}
-                            @endif
+                                @if($moshavers->vazeiat)
+                                    {{$moshavers->vazeiat}}
+                                @else
+                                        {{__("مشاوره نشده")}}
+                                @endif
+                           @else
+                                        {{__("مشاوره نشده")}}
+                            @endif            
                         </td>
                         <td>
                             @switch($karbaran->karbar_role)
-                            @case(0)
-                            @break
-                            @case(1)
-                            @break
-                            @case(2)
-                            <a href="{{route("site.signal.moshaver",$item->usersignalId)}}" class="btn btn-dark">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="{{route('site.signal.create',"mobile=".$item->mobile)}}" class="btn btn-warning">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            @break
+                                @case(0)
+                                @break
+                                @case(1)
+                                @break
+                                @case(2)
+                                <a href="{{route("site.signal.moshaver",$item->usersignalId)}}" class="btn btn-dark">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{{route('site.signal.create',"mobile=".$item->mobile)}}" class="btn btn-warning">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                @break
                             @endswitch
                         </td>
                     </tr>
-                    @php
-                    $i++;
-                    @endphp
+                        @php
+                        $i++;
+                        @endphp
                     @endforeach
                     @endif
                 </tbody>
@@ -441,10 +408,11 @@
 <script src="https://uni-everest.com/admin/assets/libs/datatables/datatables.js"></script>
 <script>
     var table = $("#zero_config").DataTable();
-    $(".p-3.border").on("click", function() {
-        var thisText = $(this).text().trim();
-        console.log(thisText);
-        table.search(thisText).draw();
+    
+    $(".p-3.border").on("click",function(){
+       var thisText = $(this).text().trim();
+       console.log(thisText);
+       table.search(thisText).draw();
     })
 </script>
 @endsection
