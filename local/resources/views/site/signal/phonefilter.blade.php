@@ -126,7 +126,7 @@
         <form action="{{route('site.signal.phone.filter.sabt')}}" method="post" id="form">
             @csrf
             <div class="row">
-                <div class="my-3 col-12 col-md-4">
+                <div class="my-3 col-12 col-md-3">
                     <label for="">
                         وضعیت
                     </label>
@@ -141,7 +141,7 @@
                         <option value="مشاوره نشده">مشاوره نشده</option>
                     </select>
                 </div>
-                <div class="my-3 col-12 col-md-4">
+                <div class="my-3 col-12 col-md-3">
                     <label for="">
                         دوره
                     </label>
@@ -156,7 +156,22 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="my-3 col-12 col-md-4">
+                <div class="my-3 col-12 col-md-3">
+                    <label for="">
+                        منطقه
+                    </label>
+                    <select name="area" id="area"  class="form-control">
+                        <option selected disabled>
+                            لطفاً منطقه مد نظر خود را انتخاب کنید
+                        </option>
+                        @foreach ($area as $makan)
+                        <option value="{{$makan->id}}">
+                            {{$makan->area}}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="my-3 col-12 col-md-3">
                     <label for="">
                         جنسیت
                     </label>
@@ -177,6 +192,11 @@
             <input type="submit" value="ثبت" class="btn btn-success">
         </form>
         <hr>
+        @if(isset($users))
+        <a href="" id="printes" download="filter.txt" target="_blank" class="btn btn-danger w-100 my-5">
+            دریافت فایل شماره تلفن ها
+        </a>
+        @endif
         <table id="zero_config" class="table table-inverse table-striped table-bordered">
             <thead>
                 <tr>
@@ -191,6 +211,9 @@
                     </th>
                     <th>
                         دوره درخواستی کاربر
+                    </th>
+                    <th>
+                        وضعیت ثبت نامی کاربر
                     </th>
                 </tr>
             </thead>
@@ -214,6 +237,13 @@
                         @endif
                         @endforeach
                     </td>
+                    <td>
+                        @if(isset($vazeiat))
+                             {{$vazeiat}}   
+                        @else
+                            {{$user->vazeiat}}       
+                        @endif
+                    </td>
                 </tr>
 
                 @endforeach
@@ -233,10 +263,12 @@
 <script src="{{ asset('assets/js/select2.min.js')}}"></script>
 <script src="https://uni-everest.com/admin/assets/libs/datatables/datatables.js"></script>
 <script>
+     $('select').select2();
     let mobile = " @if(isset($users)){{$users}}@endif";
-    console.log(mobile);
+    // console.log(mobile);
     if (mobile != "") {
         prints.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`{{$mobile}}`);
+        printes.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`{{$mobile}}`);
     }
     var table = $("#zero_config").DataTable();
     $(".p-3.border").on("click", function() {

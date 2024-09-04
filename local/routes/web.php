@@ -177,7 +177,7 @@ Route::prefix('/')->group(function () {
             'as'    =>  'signal.sabt',
         ]);
         Route::get('/signal-list', [
-            'uses'  =>  'SignalController@list',
+            'uses'  =>  'SignalController@listTill1000',
             'as'    =>  'signal.list',
         ]);
         Route::post('/Sarea-ajax', [
@@ -195,6 +195,14 @@ Route::prefix('/')->group(function () {
         Route::post('/signal-olduser', [
             'uses'  =>  'SignalController@olduser',
             'as'    =>  'signal.olduser',
+        ]);
+        Route::post('/signal-oldnobat', [
+            'uses'  =>  'SignalController@oldnobat',
+            'as'    =>  'signal.oldnobat',
+        ]);
+        Route::post('/signal-Allnobat', [
+            'uses'  =>  'SignalController@nobatAll',
+            'as'    =>  'signal.nobatAll',
         ]);
         Route::post('/signal-oldsignals', [
             'uses'  =>  'SignalController@oldsignals',
@@ -224,6 +232,14 @@ Route::prefix('/')->group(function () {
             'uses'  =>  'SignalController@phoneNumbers',
             'as'    =>  'signal.phone.numbers',
         ]);
+        Route::post('/phone-calls', [
+            'uses'  =>  'SignalController@phoneCall',
+            'as'    =>  'signal.phoneCall',
+        ]);
+        Route::post('/all-phone-calls', [
+            'uses'  =>  'SignalController@AllphoneCall',
+            'as'    =>  'signal.AllphoneCall',
+        ]);
         Route::get('/phone-numbers-filter', [
             'uses'  =>  'SignalController@phoneFilters',
             'as'    =>  'signal.phone.filter',
@@ -240,10 +256,7 @@ Route::prefix('/')->group(function () {
             'uses'  =>  'SignalController@nobatSabt',
             'as'    =>  'signal.nobat.sabt',
         ]);
-        Route::post('/nobat-all', [
-            'uses'  =>  'SignalController@nobatAll',
-            'as'    =>  'signal.nobat.all',
-        ]);
+
     });
 });
 

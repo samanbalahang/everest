@@ -2,7 +2,6 @@
 @section("seo")
 <link rel="stylesheet" href="{{asset("assets/css/select2.min.css")}}">
 <link rel="stylesheet" href="{{asset("assets/css/sweetalert2.min.css")}}">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="{{asset("assets/css/FarsiCalender.css")}}">
 <style>
     .material-symbols-outlined {
@@ -140,7 +139,7 @@
                     <label for="">
                         موبایل
                     </label>
-                    <input type="text" name="mobile" id="mobile" class="form-control" required value="@if(isset($_GET[" mobile"])){{$_GET["mobile"]}} @endif" @if(isset($_GET["mobile"])) {{'autofocus'}} @endif onkeypress="allowNumbersOnly(event)" min="100000000">
+                    <input type="text" name="mobile" id="mobile" class="form-control" required value="@if(isset($_GET["mobile"])){{$_GET["mobile"]}} @endif" @if(isset($_GET["mobile"])) {{'autofocus'}} @endif onkeypress="allowNumbersOnly(event)" min="100000000">
                 </div>
             </form>
             <p id="gender">
@@ -156,6 +155,12 @@
 
             </p>
         </div>
+        <div>
+            <h2 class="h6">
+                نوبت های قبلی کاربر
+            </h2>
+            <div id="oldNobat"></div>
+        </div>
         <div class="calendar-wrapper">
             <div class="calendar-base">
 
@@ -163,16 +168,16 @@
                 </div>
                 <div class="arrows">
                     <a href="#" id="leftArrow">
-                        <span class="material-symbols-outlined">
-                            chevron_left
+                        <span>
+                        &#11164;
                         </span>
                     </a>
                     <a href="#">
                         <span id="ActiveMonth"></span>
                     </a>
                     <a href="#" id=rightArrow>
-                        <span span class="material-symbols-outlined">
-                            chevron_right
+                        <span>
+                                &#11166;
                         </span>
                     </a>
                 </div>
@@ -227,8 +232,12 @@
 <script src="{{ asset('assets/js/Farsicalender/app.js')}}"></script>
 <script src="{{ asset('assets/js/Farsicalender/mine.js')}}"></script>
 <script>
-    window.addEventListener("load", () => {
-      
+    window.addEventListener("load", () => {       
+        $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{csrf_token()}}",
+                    }
+                });
         let shagerd_id;
         // فقط عدد میگیرد
         function allowNumbersOnly(e) {
@@ -251,31 +260,41 @@
                     $(this).val("");
                 });
             } else {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': "{{csrf_token()}}",
-                    }
-                });
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': "{{--csrf_token()--}}",
+                //     }
+                // });
                 let data = {
                     "mobile": $("#mobile").val(),
                 }
                 $.ajax({
-                    url: "{{route('site.signal.olduser') }}",
+                    url: "{{route('site.signal.oldnobat') }}",
                     data: data,
                     type: 'post',
                     success: function(result) {
+                        result = JSON.parse(result);
+                        result[0] = JSON.parse(result[0]);
+                        result[1] = JSON.parse(result[1]);
                         if (result != "") {
                             let gender;
-                            if (result.gender == 1) {
+                            if (result[0].gender == 1) {
                                 gender = 'آقای';
                             } else {
                                 gender = 'خانم';
                             }
-                            shagerd_id = result.id;
-                            $("#fname").text(result.fname);
-                            $("#lname").text(result.lname);
+                            shagerd_id = result[0].id;
+                            $("#fname").text(result[0].fname);
+                            $("#lname").text(result[0].lname);
                             $("#gender").text(gender);
-                            $("#request").text(result.request);
+                            $("#request").text(result[0].request);
+                            if(result[1].length > 0){
+                                result[1].forEach(item=>{
+                                    console.log(item);
+                                    console.log(item.hour);                                    
+                                    $("#oldNobat").append(`<p>${item.hour}:  ${item.year}/${item.month}/${item.day}</p>`);
+                                });
+                            }
                             Swal.fire({
                                 text: `میتوانید به کاربر نوبت مشاوره دهید`,
                                 icon: 'success',
@@ -294,81 +313,144 @@
         let thisDay = parseInt(QurentDayElemant.classList[1].substring(7));
         var nobat = "";
         dayElement.forEach((day) => {
-            day.addEventListener("click", () => {              
+            day.addEventListener("click", () => {   
+                nobat = "";           
                 if($("#mobile").val() != ""){
+                   
                 let clickedDayMonth = parseInt(day.classList[1].substring(5, 6));
                 let clickedDayDay = parseInt(day.classList[1].substring(7));
                 if (clickedDayMonth >= thisMonth && clickedDayDay >= thisDay) {
-                    var users = day.dataset.user.split(',');
-                    var userslenght = users.length;
-
-                    users.forEach(item => {
-                        nobat += `<p>
-                        ${item}
-                        </p>
-                        `;
-                    });
-                    Swal.fire({
-                        title: "<strong>تعیین نوبت <u>برای کاربر</u></strong>",
-                        width: '100%',
-                        icon: "info",
-                        html: `
-                            ${nobat}
-                            <input type="time" name="time" id="thetime">
-                             `,
-                        showCloseButton: true,
-                        focusConfirm: false,
-                        confirmButtonText: `
-                            رزور کن!
-                           `,
-                        confirmButtonAriaLabel: "Thumbs up, great!",
-                        cancelButtonText: `
-                            <i class="fa fa-thumbs-down"></i>
-                        `,
-                        cancelButtonAriaLabel: "Thumbs down"
-                    }).then((result) => {
+                    console.log(day.getAttribute("data-user"));
+                    if(day.getAttribute("data-user") != null){
+                        // اگر در این روز نوبت داده ایم.
+                        var users = day.dataset.user.split(',');
+                        var userslenght = users.length;
+                        users.forEach(item => {
+                            nobat += `<p>
+                            ${item}
+                            </p>
+                            `;
+                        });
+                        Swal.fire({
+                            title: "<strong>تعیین نوبت <u>برای کاربر</u></strong>",
+                            width: '100%',
+                            icon: "info",
+                            html: `
+                                ${nobat}
+                                <input type="time" name="time" id="thetime" dir="ltr">
+                                `,
+                            showCloseButton: true,
+                            focusConfirm: false,
+                            confirmButtonText: `
+                                رزور کن!
+                            `,
+                            confirmButtonAriaLabel: "Thumbs up, great!",
+                            cancelButtonText: `
+                                <i class="fa fa-thumbs-down"></i>
+                            `,
+                            cancelButtonAriaLabel: "Thumbs down"
+                        }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
-                        if (result.isConfirmed) {
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': "{{csrf_token()}}",
+                            if (result.isConfirmed) {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': "{{csrf_token()}}",
+                                    }
+                                });
+                                let data = {
+                                    "class": QurentDayElemant.classList[1],
+                                    "year": '1403',
+                                    "month": String(thisMonth),
+                                    "day": String(thisDay),
+                                    "hour": thetime.value,
+                                    "usersignal_id": shagerd_id,
                                 }
-                            });
-                            let data = {
-                                "class": QurentDayElemant.classList[1],
-                                "year": '1403',
-                                "month": String(thisMonth),
-                                "day": String(thisDay),
-                                "hour": thetime.value,
-                                "usersignal_id": shagerd_id,
-                            }
-                            $.ajax({
-                                url: "{{route('site.signal.nobat.sabt') }}",
-                                data: data,
-                                type: 'post',
-                                success: function(result) {
-                                    if (result == "done") {
-                                        day.classList.add(`usersignal_id-${shagerd_id}`);
-                                        Swal.fire({
-                                            title: "ثبت شد",
-                                            text: "رزور ثبت شد",
-                                            icon: "success"
-                                        });
-                                        let karbaran = day.querySelector(".karbaran");
-                                        if (karbaran == null) {
-                                            let span = document.createElement("small");
-                                            span.classList.add("karbaran");
-                                            span.innerText = 1;
-                                            day.prepend(span);
-                                        } else {
-                                            karbaran.innerText = parseInt(karbaran.innerText) + 1;
+                                $.ajax({
+                                    url: "{{route('site.signal.nobat.sabt') }}",
+                                    data: data,
+                                    type: 'post',
+                                    success: function(result) {
+                                        if (result == "done") {
+                                            day.classList.add(`usersignal_id-${shagerd_id}`);
+                                            Swal.fire({
+                                                title: "ثبت شد",
+                                                text: "رزور ثبت شد",
+                                                icon: "success"
+                                            });
+                                            let karbaran = day.querySelector(".karbaran");
+                                            if (karbaran == null) {
+                                                let span = document.createElement("small");
+                                                span.classList.add("karbaran");
+                                                span.innerText = 1;
+                                                day.prepend(span);
+                                            } else {
+                                                karbaran.innerText = parseInt(karbaran.innerText) + 1;
+                                            }
                                         }
                                     }
+                                });
+                            }
+                        });
+                      }else{
+                        // اگر در این روز نوبتی داده نشده است.
+                        Swal.fire({
+                            title: "<strong>تعیین نوبت <u>برای کاربر</u></strong>",
+                            width: '100%',
+                            icon: "info",
+                            html: `
+                                <input type="time" name="time" id="thetime">
+                                `,
+                            showCloseButton: true,
+                            focusConfirm: false,
+                            confirmButtonText: `
+                                رزور کن!
+                            `,
+                            confirmButtonAriaLabel: "Thumbs up, great!",
+                        }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': "{{csrf_token()}}",
+                                    }
+                                });
+                                let data = {
+                                    "class": QurentDayElemant.classList[1],
+                                    "year": '1403',
+                                    "month": String(thisMonth),
+                                    "day": String(thisDay),
+                                    "hour": thetime.value,
+                                    "usersignal_id": shagerd_id,
                                 }
-                            });
-                        }
-                    });
-                } else {
+                                $.ajax({
+                                    url: "{{route('site.signal.nobat.sabt') }}",
+                                    data: data,
+                                    type: 'post',
+                                    success: function(result) {
+                                        if (result == "done") {
+                                            day.classList.add(`usersignal_id-${shagerd_id}`);
+                                            Swal.fire({
+                                                title: "ثبت شد",
+                                                text: "رزور ثبت شد",
+                                                icon: "success"
+                                            });
+                                            let karbaran = day.querySelector(".karbaran");
+                                            if (karbaran == null) {
+                                                let span = document.createElement("small");
+                                                span.classList.add("karbaran");
+                                                span.innerText = 1;
+                                                day.prepend(span);
+                                            } else {
+                                                karbaran.innerText = parseInt(karbaran.innerText) + 1;
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                      }
+
+                    } else {
                     let karbaran = day.querySelector(".karbaran");
                     var users = day.dataset.user.split(',');
                     var userslenght = users.length;
@@ -416,14 +498,15 @@
 
         // دریافت کلیه نوبت های مشاوره در بانک داده
         let allMoshavereh = () => {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': "{{csrf_token()}}",
-                }
-            });
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': "{{csrf_token()}}",
+            //     }
+            // });
             $.ajax({
-                url: "{{route('site.signal.nobat.all')}}",
+                url: "{{route('site.signal.nobatAll')}}",
                 type: 'post',
+                crossDomain: false,
                 success: function(result) {
                     result = JSON.parse(result);
                     result.forEach(items => {

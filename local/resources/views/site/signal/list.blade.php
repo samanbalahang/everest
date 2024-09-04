@@ -1,6 +1,7 @@
 @extends('site.layouts.main')
 @section("seo")
 <link rel="stylesheet" href="https://uni-everest.com/admin/assets/libs/datatables/datatables.css">
+<link rel="stylesheet" href="{{asset("assets/css/sweetalert2.min.css")}}">
 <style>
     body {
         direction: rtl !important;
@@ -317,25 +318,9 @@
                             @endif
                         </td>
                         <td>
-                            @if($moshavers)
-                            @if($moshavers->vazeiat)
-                                @if($moshavers->vazeiat == "پاسخگو نبود")
-                                <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
-                                    {{ $item->mobile }}
-                                </a>
-                                @else
-                                    {{ $item->mobile }}
-                                @endif
-                            @else
                             <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
                                 {{ $item->mobile }}
                             </a>
-                            @endif
-                            @else
-                            <a href="{{route('site.signal.nobat',"mobile=".$item->mobile)}}" class="text-danger">
-                                {{ $item->mobile }}
-                            </a>
-                            @endif
                         </td>
                         <td>
                             @if(App\Area::find($item->area))
@@ -433,12 +418,36 @@
                     @endif
                 </tbody>
             </table>
+
+
         </div>
+       
+        @if(isset($usersCount))
+        @php
+        $thousends = floor($usersCount/1000);
+        echo $thousends;
+        @endphp
+        @for ($i = 0; $i <= $thousends; $i++)
+            @php
+            $page=$i+1;
+            @endphp
+            <a href="{{route("site.signal.list","page=$page")}}" class="btn btn-success pages">
+            بخش
+            &nbsp;
+            {{$i+1}}
+            &nbsp;
+            از داده ها
+            </a>
+            @endfor
+            @endif
     </div>
+
 </main>
 @endsection
 @section("scripts")
 <script src="https://uni-everest.com/admin/assets/libs/datatables/datatables.js"></script>
+<script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
+
 <script>
     var table = $("#zero_config").DataTable();
     $(".p-3.border").on("click", function() {
@@ -446,5 +455,60 @@
         console.log(thisText);
         table.search(thisText).draw();
     })
+    $(".pages").on("click", e => {
+        console.log(".pagesClicked ");
+        let url = e.currentTarget.href; //"https://uni-everest.com/signal-list?page=1"
+        let page = url.indexOf("?");
+        console.log("page " + page);
+        gets();
+        if (url.indexOf("?") > -1) {
+            page = url.substring(url.indexOf("?"));
+            console.log("page " + page);
+            let curentUrl = gets();
+            let calledPage = page.substring(6);
+            console.log("calledPage " + calledPage);
+            if (curentUrl.length > 0) {
+                console.log("curentUrl " + curentUrl);
+                let curentpage = curentUrl["page"];
+                console.log("curentpage " + curentpage);
+                if (curentpage != undefined && curentpage == calledPage) {
+                    e.preventDefault();
+                    swal.fire({
+                        text: "درحال حاضر درحال دیدن همین اطلاعات هستید.",
+                    })
+                }
+            } else {
+                if (calledPage == 1) {
+                    e.preventDefault();
+                    swal.fire({
+                        text: "درحال حاضر درحال دیدن همین اطلاعات هستید.",
+                    })
+                }
+            }
+        }
+
+    });
+    let gets = () => {
+        var $_GET = {};
+        if (document.location.toString().indexOf('?') !== -1) {
+            var query = document.location
+                .toString()
+                // get the query string
+                .replace(/^.*?\?/, '')
+                // and remove any existing hash string (thanks, @vrijdenker)
+                .replace(/#.*$/, '')
+                .split('&');
+
+            for (var i = 0, l = query.length; i < l; i++) {
+                var aux = decodeURIComponent(query[i]).split('=');
+                $_GET[aux[0]] = aux[1];
+            }
+            console.log($_GET);
+
+        }
+        console.log("gets");
+        console.log($_GET);
+        return $_GET;
+    }
 </script>
 @endsection
